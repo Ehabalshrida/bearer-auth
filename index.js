@@ -1,10 +1,12 @@
 'use strict';
 
-// Start up DB Server
-const { db } = require('./src/auth/models/index.js');
-db.sync()
-  .then(() => {
+require('dotenv').config()
 
-    // Start the web server
-    require('./src/server.js').startup(process.env.PORT);
-  });
+const server = require('./src/server');
+const {db} = require('./src/auth/models/index');
+
+
+db.sync().then(()=> {
+    server.start(process.env.PORT|| 3000);
+})
+.catch(console.error);
